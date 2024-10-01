@@ -58,5 +58,5 @@ $folders = Get-ChildItem -Path '.\Drawio_Library\Drawio_Library-main/SVG_Azure_G
 foreach ($folder in $folders) {
     $foldername = $folder.Name
     $files = Get-ChildItem -Path $folder -File
-    Create-Library -Foldername $foldername -FilesObject $files
+    Create-Library -Foldername $foldername -FilesObject $files -IconSize $Size
 }
