@@ -53,6 +53,9 @@ $fontFamily = "Verdana"
 $fontSize = 10
 $fontColor = "#331A00"
 
+
+
+# Create libraries on the SVG_Azure_Grouped folders
 $folders = Get-ChildItem -Path '.\Drawio_Library\Drawio_Library-main/SVG_Azure_Grouped' -Directory
 
 foreach ($folder in $folders) {
@@ -60,3 +63,8 @@ foreach ($folder in $folders) {
     $files = Get-ChildItem -Path $folder -File
     Create-Library -Foldername $foldername -FilesObject $files -IconSize $Size
 }
+
+# Create big library on the SVG_Azure_All folder 1200+ icons
+$foldername = '.\Drawio_Library\Drawio_Library-main\SVG_Azure_All'
+$files = Get-ChildItem -Path $foldername -File
+Create-Library -Foldername 'Azure_All' -FilesObject $files -IconSize $Size
