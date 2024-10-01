@@ -4,7 +4,7 @@
     Expand-Archive -Path ".\Drawio_Library.zip"
 
 #>
-function Create-Library ($FilesObject, $Foldername, $IconSize) {
+function Create-Library ($FilesObject, $Foldername, $IconSize, $baseURL) {
 
     # Reset the variable
     $shapedefinitions = ""
@@ -14,7 +14,7 @@ function Create-Library ($FilesObject, $Foldername, $IconSize) {
 
     foreach ($file in $FilesObject) {
         $shapeName = $file.name -replace '.svg', '' 
-        $imageUrl = "https://raw.githubusercontent.com/DSchoutsen/Drawio_Library/b2224d982ef8b40adc1a0facaacb1e2ff19bd696/SVG_Azure_Grouped/$Foldername/" + [uri]::EscapeDataString($shapeName) + ".svg"
+        $imageUrl = "$baseURL/$Foldername/" + [uri]::EscapeDataString($shapeName) + ".svg"
 
         #adjust icon Size to requested in pts
         $svgHeigth = (Select-String -path $file "height=")[0].Line  -replace "[^0-9.]" , ''
@@ -52,8 +52,7 @@ $size = 50
 $fontFamily = "Verdana"
 $fontSize = 10
 $fontColor = "#331A00"
-
-
+$baseURL = "https://raw.githubusercontent.com/DSchoutsen/Drawio_Library/b2224d982ef8b40adc1a0facaacb1e2ff19bd696/SVG_Azure_Grouped"
 
 # Create libraries on the SVG_Azure_Grouped folders
 $folders = Get-ChildItem -Path '.\Drawio_Library\Drawio_Library-main/SVG_Azure_Grouped' -Directory
@@ -61,10 +60,12 @@ $folders = Get-ChildItem -Path '.\Drawio_Library\Drawio_Library-main/SVG_Azure_G
 foreach ($folder in $folders) {
     $foldername = $folder.Name
     $files = Get-ChildItem -Path $folder -File
-    Create-Library -Foldername $foldername -FilesObject $files -IconSize $Size
+    Create-Library -Foldername $foldername -FilesObject $files -IconSize $Size -baseURL $baseURL
 }
 
 # Create big library on the SVG_Azure_All folder 1200+ icons
+$baseURL = "https://raw.githubusercontent.com/DSchoutsen/Drawio_Library/b98ad08179bba3c95467eab3a88cb1510d1fa053"
+
 $foldername = '.\Drawio_Library\Drawio_Library-main\SVG_Azure_All'
 $files = Get-ChildItem -Path $foldername -File
-Create-Library -Foldername 'Azure_All' -FilesObject $files -IconSize $Size
+Create-Library -Foldername 'SVG_Azure_All' -FilesObject $files -IconSize $Size -baseURL $baseURL
